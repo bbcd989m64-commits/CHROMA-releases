@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>CHROMA — Des couleurs qui claquent dans tous tes jeux</title>
+<meta name="description" content="CHROMA booste la vibrance, les couleurs et la visibilité de ton écran, avec un profil automatique pour chaque jeu. Windows 10 / 11, NVIDIA, AMD et Intel.">
+<link rel="icon" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DynaPuff:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#070c0a; --card:#101914; --border:#1f3328; --text:#f8f3e8; --muted:#a9b8ad;
+    --red:#e0364a; --gold:#f6c453; --green:#5fd08a;
+    --grad:linear-gradient(120deg,#f0566a 0%,#c21d38 55%,#e9b23f 100%);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--bg);color:var(--text);font-family:"DynaPuff",system-ui,sans-serif;line-height:1.55}
+  a{color:inherit}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  header{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+  .brand{display:flex;align-items:center;gap:12px;font-weight:700;font-size:22px;text-decoration:none}
+  .brand img{width:42px;height:42px}
+  .brand span{background:linear-gradient(90deg,#fff4d6,var(--gold) 45%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+  nav a{margin-left:22px;color:var(--muted);text-decoration:none;font-size:15px}
+  nav a:hover{color:var(--text)}
+  .btn{display:inline-block;padding:14px 26px;border-radius:14px;font-weight:700;text-decoration:none;font-size:16px;border:0;cursor:pointer;font-family:inherit}
+  .btn.primary{background:var(--grad);color:#fff;box-shadow:0 10px 30px -10px rgba(224,54,74,.7)}
+  .btn.ghost{background:var(--card);border:1px solid var(--border);color:var(--text)}
+  .btn:hover{transform:translateY(-1px)}
+  .hero{display:grid;grid-template-columns:1.05fr 1fr;gap:44px;align-items:center;padding:40px 0 70px}
+  .hero h1{font-size:50px;line-height:1.08;margin:0 0 18px}
+  .hero h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .hero p{color:var(--muted);font-size:18px;margin:0 0 28px}
+  .ctas{display:flex;gap:12px;flex-wrap:wrap}
+  .small{color:var(--muted);font-size:13px;margin-top:14px}
+  .pill{display:inline-block;padding:5px 12px;border-radius:20px;background:rgba(95,208,138,.12);color:var(--green);font-size:13px;margin-bottom:16px}
+  /* Démo avant / après */
+  .demo{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--border);aspect-ratio:16/10;user-select:none;cursor:ew-resize;background:#000}
+  .demo .layer{position:absolute;inset:0}
+  .demo .layer svg{width:100%;height:100%;display:block}
+  .demo .before{filter:saturate(.8) brightness(.92)}
+  .demo .after{filter:saturate(var(--sat,1.6)) contrast(1.06) brightness(1.04);clip-path:inset(0 0 0 var(--split,50%))}
+  .demo .bar{position:absolute;top:0;bottom:0;left:var(--split,50%);width:3px;background:#fff;transform:translateX(-1.5px);box-shadow:0 0 12px rgba(0,0,0,.6)}
+  .demo .bar::after{content:"⇆";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;background:#fff;color:#111;display:grid;place-items:center;font-size:18px}
+  .tag{position:absolute;top:12px;padding:4px 10px;border-radius:9px;font-size:12px;font-weight:700}
+  .tag.l{left:12px;background:rgba(0,0,0,.65)}
+  .tag.r{right:12px;background:var(--grad)}
+  .slider{display:flex;align-items:center;gap:12px;margin-top:14px;color:var(--muted);font-size:14px}
+  .slider input{flex:1;accent-color:var(--red)}
+  section{padding:60px 0}
+  h2{font-size:34px;margin:0 0 10px}
+  .lead{color:var(--muted);margin:0 0 34px;font-size:17px}
+  .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:22px}
+  .card .ic{font-size:26px}
+  .card h3{margin:10px 0 6px;font-size:18px}
+  .card p{margin:0;color:var(--muted);font-size:14.5px}
+  .games{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+  .games span{padding:6px 12px;border-radius:12px;background:#15211a;border:1px solid var(--border);font-size:13px;color:var(--muted)}
+  .price{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .price .card{padding:30px}
+  .big{font-size:44px;font-weight:700;background:linear-gradient(90deg,#fff4d6,var(--gold) 45%,var(--red));-webkit-background-clip:text;background-clip:text;color:transparent}
+  ul.check{list-style:none;padding:0;margin:16px 0 24px}
+  ul.check li{padding:4px 0;color:var(--muted)}
+  ul.check li::before{content:"✓ ";color:var(--green);font-weight:700}
+  .steps{counter-reset:s;display:grid;gap:12px}
+  .steps div{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 18px 16px 58px;position:relative;color:var(--muted)}
+  .steps div::before{counter-increment:s;content:counter(s);position:absolute;left:16px;top:14px;width:28px;height:28px;border-radius:50%;background:var(--grad);color:#fff;display:grid;place-items:center;font-weight:700}
+  .steps b{color:var(--text)}
+  details{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:16px 20px;margin-bottom:10px}
+  summary{cursor:pointer;font-weight:600}
+  details p{color:var(--muted);margin:10px 0 0}
+  footer{border-top:1px solid var(--border);padding:28px 0 40px;color:#5e7064;font-size:13px}
+  @media (max-width:860px){
+    .hero,.price{grid-template-columns:1fr}
+    .grid{grid-template-columns:1fr}
+    .hero h1{font-size:38px}
+    nav{display:none}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <a class="brand" href="#"><img src="logo.png" alt=""><span>CHROMA</span></a>
+    <nav>
+      <a href="#fonctions">Fonctions</a>
+      <a href="#prix">Prix</a>
+      <a href="#installer">Installer</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <div>
+      <div class="pill">Nouveau · profils automatiques pour tes jeux</div>
+      <h1>Des couleurs qui <em>claquent</em> dans tous tes jeux.</h1>
+      <p>CHROMA booste la vibrance, débouche les ombres et règle ton écran au poil — avec un profil qui s'applique tout seul pour chaque jeu.</p>
+      <div class="ctas">
+        <a class="btn primary" id="download" href="https://github.com/bbcd989m64-commits/CHROMA-releases/releases/latest/download/CHROMA.exe">Télécharger CHROMA</a>
+        <a class="btn ghost" href="#prix">7 jours gratuits</a>
+      </div>
+      <div class="small">Windows 10 / 11 · NVIDIA, AMD et Intel · aucun droit administrateur</div>
+    </div>
+    <div>
+      <div class="demo" id="demo">
+        <div class="layer before" id="before"></div>
+        <div class="layer after" id="after"></div>
+        <div class="bar"></div>
+        <span class="tag l">AVANT</span>
+        <span class="tag r">APRÈS</span>
+      </div>
+      <div class="slider">Vibrance <input id="vib" type="range" min="100" max="200" value="160"> <b id="vibv">160 %</b></div>
+    </div>
+  </div>
+</div>
+
+<section id="fonctions">
+  <div class="wrap">
+    <h2>Tout ce qu'il faut, rien de compliqué</h2>
+    <p class="lead">Tu installes, tu lances ton jeu, c'est réglé.</p>
+    <div class="grid">
+      <div class="card"><div class="ic">🎮</div><h3>Profils automatiques</h3><p>Lance VALORANT, CHROMA applique ton profil VALORANT. Quitte le jeu, ton écran redevient normal.</p></div>
+      <div class="card"><div class="ic">🌈</div><h3>Vibrance jusqu'à 200 %</h3><p>Plus loin que le panneau NVIDIA, et ça marche aussi sur AMD et Intel. Saturation par couleur, teinte, température.</p></div>
+      <div class="card"><div class="ic">👀</div><h3>Voir dans l'ombre</h3><p>Ombres, gamma, contraste, niveaux de noir et de blanc : repère les ennemis cachés dans les coins sombres.</p></div>
+      <div class="card"><div class="ic">⌨️</div><h3>Raccourcis en jeu</h3><p>Ctrl+Alt+C pour allumer ou couper, Ctrl+Alt+flèches pour changer de profil, sans quitter ta partie.</p></div>
+      <div class="card"><div class="ic">🔗</div><h3>Codes de partage</h3><p>Partage tes réglages avec un code CHR1-… : tes potes le collent et ont exactement le même rendu.</p></div>
+      <div class="card"><div class="ic">🛡️</div><h3>Propre et sûr</h3><p>Uniquement des fonctions de Windows : rien n'est injecté dans les jeux, aucun overlay, écran restauré à la fermeture.</p></div>
+    </div>
+    <div class="games">
+      <span>VALORANT</span><span>FORTNITE</span><span>COUNTER-STRIKE 2</span><span>APEX LEGENDS</span><span>CALL OF DUTY / WARZONE</span>
+      <span>RAINBOW SIX SIEGE</span><span>MARVEL RIVALS</span><span>OVERWATCH 2</span><span>ROCKET LEAGUE</span>
+      <span>LEAGUE OF LEGENDS</span><span>ROBLOX</span><span>MINECRAFT</span><span>+ n'importe quel jeu</span>
+    </div>
+  </div>
+</section>
+
+<section id="prix">
+  <div class="wrap">
+    <h2>Un prix tout doux</h2>
+    <p class="lead">Essaie d'abord, paie ensuite si tu kiffes.</p>
+    <div class="price">
+      <div class="card">
+        <div style="color:var(--muted)">Essai gratuit</div>
+        <div class="big">0 €</div>
+        <ul class="check"><li>7 jours, toutes les fonctions</li><li>Sans carte bancaire</li><li>Directement dans l'appli : page Licence</li></ul>
+        <a class="btn ghost" href="https://github.com/bbcd989m64-commits/CHROMA-releases/releases/latest/download/CHROMA.exe">Télécharger</a>
+      </div>
+      <div class="card" style="border-color:rgba(224,54,74,.6)">
+        <div style="color:var(--muted)">Abonnement</div>
+        <div class="big">2 € / mois</div>
+        <ul class="check"><li>Ta clé arrive par e-mail juste après le paiement</li><li>Mises à jour incluses, installées en un clic</li><li>Résiliable quand tu veux</li></ul>
+        <a class="btn primary" href="https://buy.polar.sh/polar_cl_CmDcn4MMwXIZco9ZXAeHbaeuVDgjd8L3nb4zF3cmKFV">Acheter</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="installer">
+  <div class="wrap">
+    <h2>Installer en 1 minute</h2>
+    <p class="lead">Un seul fichier, aucun droit administrateur.</p>
+    <div class="steps">
+      <div><b>Télécharge CHROMA.exe</b> avec le bouton ci-dessus.</div>
+      <div><b>Double-clique dessus.</b> Si Windows affiche « Windows a protégé votre ordinateur », clique sur <b>Informations complémentaires</b>, puis sur <b>Exécuter quand même</b>. Ce message apparaît pour toutes les petites applications récentes, pas parce qu'il y a un problème.</div>
+      <div><b>Clique sur « Oui »</b> pour l'installer : CHROMA se met sur ton bureau et dans le menu Démarrer.</div>
+      <div><b>Page Licence → « Commencer l'essai »</b>, puis lance ton jeu. C'est tout !</div>
+    </div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions fréquentes</h2>
+    <details><summary>Est-ce que ça marche avec ma carte graphique ?</summary><p>Oui : CHROMA utilise des fonctions de Windows, pas du pilote. Il marche avec NVIDIA, AMD et Intel, sur Windows 10 et 11.</p></details>
+    <details><summary>Est-ce que je peux me faire bannir ?</summary><p>CHROMA ne touche pas aux jeux : il ne lit rien, n'injecte rien et n'ajoute aucun overlay, il change seulement les couleurs de ton écran avec Windows. Mais aucun éditeur de jeu ne garantit officiellement ce type d'outil : tu l'utilises sous ta responsabilité, dans le respect des règles de chaque jeu et compétition.</p></details>
+    <details><summary>Et en HDR ?</summary><p>La vibrance et la saturation marchent aussi en HDR. Certains réglages de courbe (gamma, ombres) ne sont possibles qu'en SDR : CHROMA te le dit clairement au lieu de faire semblant.</p></details>
+    <details><summary>Comment je récupère mes couleurs d'origine ?</summary><p>Coupe le moteur (Ctrl+Alt+C) ou ferme CHROMA : l'écran revient exactement comme avant. Même après un plantage, CHROMA restaure tout au lancement suivant.</p></details>
+    <details><summary>Comment résilier ?</summary><p>Depuis ton espace client Polar (lien dans l'e-mail d'achat), en deux clics.</p></details>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer>© 2026 CHROMA · Fait avec ❤ pour les gamers · <a href="https://github.com/bbcd989m64-commits/CHROMA-releases/releases">Notes de version</a></footer>
+</div>
+
+<script>
+  // Petite scène de jeu dessinée en SVG, dupliquée dans les deux calques (avant / après).
+  const scene = `
+  <svg viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b6fb0"/><stop offset=".6" stop-color="#e2a46a"/><stop offset="1" stop-color="#d7774f"/></linearGradient>
+      <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4f7a3a"/><stop offset="1" stop-color="#22351b"/></linearGradient>
+      <radialGradient id="sun"><stop offset="0" stop-color="#fff2c4"/><stop offset="1" stop-color="#f3b45c" stop-opacity="0"/></radialGradient>
+    </defs>
+    <rect width="800" height="500" fill="url(#sky)"/>
+    <circle cx="610" cy="170" r="120" fill="url(#sun)"/>
+    <path d="M0 300 L120 190 L230 280 L360 150 L470 270 L590 200 L800 310 L800 500 L0 500Z" fill="#5a5f86"/>
+    <path d="M0 340 L150 270 L300 330 L430 250 L560 320 L700 260 L800 300 L800 500 L0 500Z" fill="#6c4f6f"/>
+    <rect y="350" width="800" height="150" fill="url(#ground)"/>
+    <rect x="70" y="250" width="150" height="150" fill="#5b4636"/><rect x="90" y="280" width="40" height="40" fill="#d9b25b"/>
+    <rect x="70" y="250" width="150" height="150" fill="#000" opacity=".45"/>
+    <g opacity=".9"><rect x="150" y="330" width="16" height="40" rx="5" fill="#2b2f3a"/><circle cx="158" cy="322" r="9" fill="#2b2f3a"/></g>
+    <rect x="520" y="300" width="120" height="100" fill="#8a3a33"/><polygon points="510,300 580,250 650,300" fill="#5f2722"/>
+    <circle cx="420" cy="410" r="40" fill="#2f8a43"/><circle cx="460" cy="400" r="34" fill="#3aa152"/>
+    <rect x="300" y="380" width="60" height="22" rx="4" fill="#c33c3c"/><rect x="306" y="372" width="48" height="12" rx="3" fill="#2f6cc4"/>
+    <circle cx="720" cy="420" r="16" fill="#e6c33a"/>
+  </svg>`;
+  const before = document.getElementById('before'), after = document.getElementById('after');
+  before.innerHTML = scene; after.innerHTML = scene;
+
+  const demo = document.getElementById('demo');
+  function setSplit(clientX){
+    const r = demo.getBoundingClientRect();
+    const p = Math.min(100, Math.max(0, (clientX - r.left) / r.width * 100));
+    demo.style.setProperty('--split', p + '%');
+  }
+  let dragging = false;
+  demo.addEventListener('pointerdown', e => { dragging = true; demo.setPointerCapture(e.pointerId); setSplit(e.clientX); });
+  demo.addEventListener('pointermove', e => { if (dragging) setSplit(e.clientX); });
+  demo.addEventListener('pointerup', () => dragging = false);
+
+  const vib = document.getElementById('vib'), vibv = document.getElementById('vibv');
+  function setVib(){ demo.style.setProperty('--sat', (vib.value / 100).toFixed(2)); vibv.textContent = vib.value + ' %'; }
+  vib.addEventListener('input', setVib); setVib();
+</script>
+</body>
+</html>
